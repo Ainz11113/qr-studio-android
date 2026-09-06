@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Studio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+        
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        input:focus {
+            border-color: #6366f1;
+        }
+
+        button {
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #4f46e5;
+        }
+        
+        .preview {
+            background-color: #0f172a;
+            border: 2px dashed #334155;
+            border-radius: 8px;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .placeholder {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        body {
+        user-select: none;
+        }
+        
+        input {
+        user-select: text;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>QR Studio</h1>
+        <p>Enter text or link</p>
+
+        <div class="input-group">
+            <input type="text" id="qr-input" placeholder="https://example.com" autocomplete="off">
+            <button onclick="generateQR()">Generate</button>
+        </div>
+
+        <div class="preview">
+            <span class="placeholder" id="placeholder">Your QR-code will be spawn here</span>
+            <img id="qr-img" alt="QR Code">
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            const input = document.getElementById('qr-input').value.trim();
+            const img = document.getElementById('qr-img')
+            const placeholder = document.getElementById('placeholder');
+
+            if (!input) {
+                alert('Please,enter the text!');
+                return;
+            }
+            
+            img.src = '/generate?data=' + encodeURIComponent(input);
+
+            img.onload = () => {
+                placeholder.style.display = 'none';
+                img.style.display = 'block';
+            };
+        }
+    </script>
+    <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
